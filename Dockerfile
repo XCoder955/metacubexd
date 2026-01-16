@@ -23,8 +23,6 @@ EXPOSE 80
 WORKDIR /app
 RUN apk add nodejs
 # Copy the entire Nuxt server output
-COPY --from=builder /build/.output ./.output
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+COPY --from=builder /build/.output ./metacubex
 
-CMD /docker-entrypoint.sh & && /mihomo
+CMD node /app/metacubex/server/index.mjs & && /mihomo
