@@ -1,0 +1,21 @@
+services:
+  mihomo:
+    container_name: mihomo
+    image: ghcr.io/xcoder955/metacubexd
+    restart: unless-stopped
+    network_mode: bridge
+    environment:
+      - VITE_MIHOMO_PORT=9091 # 与映射出来的mihomo后端管理端口一致
+    ports:
+      - "9091:9090" # mihomo后端管理端口
+      - "1080:80" # web ui
+    volumes:
+      # 订阅文件
+      - /volume2/Docker/mihomo:/root/.config/mihomo
+      # 共享host的时间环境
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      # tun模式
+      #- /dev/net/tun:/dev/net/tun
+      # ui文件
+      #- /volume2/Docker/mihomo/ui:/ui

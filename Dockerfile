@@ -17,6 +17,7 @@ RUN pnpm build
 FROM metacubex/mihomo:latest
 
 ENV PORT=80
+ENV VITE_MIHOMO_PORT=9090
 EXPOSE 80
 
 WORKDIR /app
@@ -26,4 +27,4 @@ COPY --from=builder /build/.output ./.output
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-CMD ["nohup /docker-entrypoint.sh & && /mihomo"]
+CMD /docker-entrypoint.sh & && /mihomo

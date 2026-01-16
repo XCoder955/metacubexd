@@ -22,6 +22,9 @@ export default defineNuxtConfig({
     public: {
       appVersion: pkg.version,
       mockMode: process.env.MOCK_MODE === 'true',
+      mihomoPorts: {
+        default: parseInt(process.env.VITE_MIHOMO_PORT || '9090'),
+      },
     },
   },
 

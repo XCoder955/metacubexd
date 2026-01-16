@@ -15,6 +15,7 @@ useHead({ title: computed(() => t('setup')) })
 const router = useRouter()
 const route = useRoute()
 const endpointStore = useEndpointStore()
+const { public: config } = useRuntimeConfig()
 
 const formData = reactive({
   url: '',
@@ -24,7 +25,7 @@ const formData = reactive({
 const isSubmitting = ref(false)
 
 // Get default backend URL from config
-// Priority: config -> same host + 9090 -> localhost:9090
+// Priority: config -> same host + mihomo port -> localhost + mihomo port
 const defaultBackendURL = computed(() => {
   if (typeof window === 'undefined') return ''
   
@@ -32,10 +33,12 @@ const defaultBackendURL = computed(() => {
   const configURL = (window as any).__METACUBEXD_CONFIG__?.defaultBackendURL
   if (configURL) return configURL
   
-  // 2. Use same host as dashboard with port 9090
+  // 2. Use same host as dashboard with Mihomo port
   const protocol = window.location.protocol
   const hostname = window.location.hostname
-  return `${protocol}//${hostname}:9090`
+  const mihomoPorts = config.mihomoPorts as { default: number }
+  const port = mihomoPorts?.default || 9090
+  return `${protocol}//${hostname}:${port}`
 })
 
 // Get current origin for datalist
