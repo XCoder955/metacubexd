@@ -24,12 +24,18 @@ const formData = reactive({
 const isSubmitting = ref(false)
 
 // Get default backend URL from config
+// Priority: config -> same host + 9090 -> localhost:9090
 const defaultBackendURL = computed(() => {
   if (typeof window === 'undefined') return ''
-  return (
-    (window as any).__METACUBEXD_CONFIG__?.defaultBackendURL ||
-    FALLBACK_BACKEND_URL
-  )
+  
+  // 1. Check config first
+  const configURL = (window as any).__METACUBEXD_CONFIG__?.defaultBackendURL
+  if (configURL) return configURL
+  
+  // 2. Use same host as dashboard with port 9090
+  const protocol = window.location.protocol
+  const hostname = window.location.hostname
+  return `${protocol}//${hostname}:9090`
 })
 
 // Get current origin for datalist
