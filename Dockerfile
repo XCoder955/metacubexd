@@ -27,4 +27,4 @@ COPY --from=builder /build/.output ./metacubex
 #COPY docker-entrypoint.sh /docker-entrypoint.sh
 #RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["node /app/metacubex/server/index.mjs > /dev/null 2>&1 & && exec /mihomo"]
+ENTRYPOINT ["sh", "-c", "node /app/metacubex/server/index.mjs & exec /mihomo"]
